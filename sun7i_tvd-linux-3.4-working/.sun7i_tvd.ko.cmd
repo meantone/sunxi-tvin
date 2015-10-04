@@ -1,0 +1,1 @@
+cmd_drivers/media/video/sun7i_tvd/sun7i_tvd.ko := arm-linux-gnueabihf-ld -EL -r  -T /home/ubuntu/A20_BUILD/MarsBoard-A20-Linux-SDK-V1.1/linux-sunxi/scripts/module-common.lds --build-id  -o drivers/media/video/sun7i_tvd/sun7i_tvd.ko drivers/media/video/sun7i_tvd/sun7i_tvd.o drivers/media/video/sun7i_tvd/sun7i_tvd.mod.o

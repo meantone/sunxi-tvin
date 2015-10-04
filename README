@@ -1,0 +1,34 @@
+These are the TV-in drivers for the Allwinner A20.
+
+* sun7i_tvd-linux-3.3: This is the driver as found in Linux 3.3 for Cubieboard
+                                 (https://github.com/cubieboard2/linux-sunxi/tree/sunxi-3.3-cb2)
+* sun7i_tvd-lichee-android-linux3.3: The working driver distributed in Android 4.2 for MarsBoard 
+                      (http://www.haoyuelectronics.com/service/A10-A20/A20-android-source-code/)
+* sun7i_tvd-linux-3.4-working: Barebones porting to Linux 3.4
+
+The Cubieboard and Android versions have some slight differences in the registers initialized and
+in clock initialization code. My porting is pretty rough but can capture images:
+* I "added" some missing #defines form missing files (this should be done in a better way)
+* I forced the video field to be returned V4L2_FIELD_NONE as the docs specify
+* I fixed the returned video dimensions (so ffmpeg is happy for example)
+
+To have it working add the following lines to Kconfig
+
+source "drivers/media/video/sun7i_tvd/Kconfig"
+
+and Makefile 
+
+obj-$(CONFIG_SUN7I_TVD) += sun7i_tvd/
+
+in the /drivers/media/video directory
+
+To use the TV input:
+
+* Get https://github.com/ebutera/sunxi-tvin, compile it and run it as sudo
+  If you have a HDMI display it should mirror the input on the display (I
+  do not have one so I could not see the result). This program initializes
+  all the private structures for the v4l2 driver, which seem not to be 
+  cleared on exit.
+
+* After you ran this program you should be able to capture from "normal"
+  programs also
