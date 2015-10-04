@@ -1,9 +1,9 @@
 These are the TV-in drivers for the Allwinner A20.
 
 * sun7i_tvd-linux-3.3: This is the driver as found in Linux 3.3 for Cubieboard
-                                 (https://github.com/cubieboard2/linux-sunxi/tree/sunxi-3.3-cb2)
+(https://github.com/cubieboard2/linux-sunxi/tree/sunxi-3.3-cb2)
 * sun7i_tvd-lichee-android-linux3.3: The working driver distributed in Android 4.2 for MarsBoard 
-                      (http://www.haoyuelectronics.com/service/A10-A20/A20-android-source-code/)
+(http://www.haoyuelectronics.com/service/A10-A20/A20-android-source-code/)
 * sun7i_tvd-linux-3.4-working: Barebones porting to Linux 3.4
 
 The Cubieboard and Android versions have some slight differences in the registers initialized and
@@ -32,3 +32,7 @@ To use the TV input:
 
 * After you ran this program you should be able to capture from "normal"
   programs also
+  
+Test with ffmpeg
+ffmpeg -f v4l2 -s 720x576 -pix_fmt nv12 -r 24 -t 10 -i /dev/video1 m.mpg
+
