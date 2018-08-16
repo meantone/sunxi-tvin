@@ -119,7 +119,6 @@ static irqreturn_t tvd_irq(int irq, void *priv)
 	
 	if (list_empty(&dma_q->active)) {		
 		__err("No active queue to serve\n");		
-		goto unlock;	
 	}
 	
 	buf = list_entry(dma_q->active.next,struct buffer, vb.queue);
@@ -142,18 +141,20 @@ static irqreturn_t tvd_irq(int irq, void *priv)
 	buf->vb.state = VIDEOBUF_DONE;
 	wake_up(&buf->vb.done);
 	
+set_next_addr:
 	//judge if the frame queue has been written to the last
 	if (list_empty(&dma_q->active)) {		
-		__dbg("No more free frame\n");		
+		__dbg("No more free frame\n");	
+		first_flag = 0;	
 		goto unlock;	
 	}
 	
 	if ((&dma_q->active) == dma_q->active.next->next) {
 		__dbg("No more free frame on next time\n");		
+		first_flag = 0;
 		goto unlock;	
 	}
 		
-set_next_addr:	
 	buf = list_entry(dma_q->active.next->next,struct buffer, vb.queue);
 	set_addr(dev,buf);
 
